@@ -17,7 +17,11 @@
 		<li>https://github.com/jquery/jquery-mousewheel</li>
 	</ul>
 	<div class="toolbar">
-		<div class="item"><select id="tabNoCbx" style="margin: 2px;"></select><button class="item button" id="addTabBtn">Add Tab</button></div>
+		<div class="item">
+			<select id="tabNoCbx" style="margin: 2px;"></select>
+			<button class="item button" id="addTabBtn">Add closable Tab</button>
+			<button class="item button" id="addReadonlyTabBtn">Add Unclosable Tab</button>
+		</div>
 	</div>
 	<div class="tabs" style="height:380px; margin:4px;"></div>
 	<h2>Relative Plugin</h2>
@@ -74,16 +78,22 @@ $(function(){
 
 	//add new control
 	var atBtn = $('#addTabBtn').click(function(){
+		addTab(true);
+	});
+	$('#addReadonlyTabBtn').click(function(){
+		addTab(false);
+	});
+	function addTab(closeable){
 		var a = tabs.addTab({
 			code: 'tab' + i,
 			title: 'Subject ' + i,
-			closeable: i>0,
+			closeable: i>0 && closeable,
 			el: 'Content of Tab' + i // You can put anything here
 		});
 		tabs.select('tab' + i);
 		tnCbx.append('<option value="tab' + i + '">Select Tab #tab' + i + '</option>');
 		i++;
-	});
+	}
 });
 </script>
 </body>
