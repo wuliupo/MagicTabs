@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JQuery MagicTabs Plugin</title>
+<link rel="stylesheet" href="tabs.css">
+<style>
+.container {width: 500px; margin: 20px auto;}
+</style>
+</head>
+<body>
+
+<div class="container">
+	<h1>JQuery MagicTabs Plugin</h1>
+	<ul>
+		<li>http://www.boarsoft.com/cn/javascript/tabs</li>
+		<li>https://github.com/jquery/jquery-mousewheel</li>
+	</ul>
+	<div class="toolbar">
+		<div class="item"><select id="tabNoCbx" style="margin: 2px;"></select><button class="item button" id="addTabBtn">Add Tab</button></div>
+	</div>
+	<div class="tabs" style="height:380px; margin:4px;"></div>
+	<h2>Relative Plugin</h2>
+	<ul>
+		<li>http://demo.jgpy.cn/kandytabs/</li>
+		<li>http://code.google.com/p/jquery-vert-tabs/</li>
+		<li>http://vdw.github.io/Tabslet/</li>
+		<li>http://os.alfajango.com/easytabs/</li>
+		<li>http://git.aaronlumsden.com/tabulous.js/</li>
+		<li>http://blog.ginader.de/dev/jquery/accessible-tabs/</li>
+		<li>http://jellekralt.github.io/Responsive-Tabs/demo/demo.html</li>
+		<li>http://dev.sencha.com/deploy/dev/examples/tabs/tabs-adv.html</li>
+		<li>http://www.web-delicious.com/jquery-plugins-demo/wdScrollTab/sample.htm</li>
+	</ul>
+</div>
+
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery.mousewheel.js"></script>
+<script type="text/javascript" src="tabs.js"></script>
+<script type="text/javascript">
+$(function(){
+	//mock data
+	var dd = [], i=0;
+	for(i=0; i<10; i++){
+		var a = {
+			code: 'tab' + i,
+			title: 'Subject ' + i,
+			closeable: i>0,
+			el: 'Content of Tab' + i
+		};
+		dd.push(a);
+	}
+	
+	//init tabs and event
+	var tabs = $('.tabs');
+	tabs.tabs({
+		tabWidth: 80, //Use fix width
+		items: dd,
+		onCloseTab: function(me, c, a){
+			tnCbx.find('[value=' + c + ']').remove();
+			return true;
+		}
+	}).selectFirst();
+
+	//select control
+	var tnCbx = $('#tabNoCbx').change(function(){
+		tabs.select($(this).val());
+	}).empty();
+	//init select
+	$.each(dd, function(i, n) {
+		$('<option value="' + n.code + '">Select Tab #' + n.code + '</option>').appendTo(tnCbx);
+	});
+
+	//add new control
+	var atBtn = $('#addTabBtn').click(function(){
+		var a = tabs.addTab({
+			code: 'tab' + i,
+			title: 'Subject ' + i,
+			closeable: i>0,
+			el: 'Content of Tab' + i // You can put anything here
+		});
+		tabs.select('tab' + i);
+		tnCbx.append('<option value="tab' + i + '">Select Tab #tab' + i + '</option>');
+		i++;
+	});
+});
+</script>
+</body>
+</html>
